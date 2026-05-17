@@ -29,8 +29,8 @@
   "workspace": {
     "dir": ".",
     "package": "qpm.json",
+    "sharedDir": "shared",
     "additionalData": {
-      "androidNdk": "",
       "cmake": "CMakeLists.txt",
       "toolchain": "extern/beatsaber-hook/cmake/ndk-toolchain.cmake"
     }
