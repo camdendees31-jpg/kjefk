@@ -1,0 +1,38 @@
+{
+  "info": {
+    "name": "GTModMenu",
+    "id": "gtmodmenu",
+    "version": "1.0.0",
+    "url": null,
+    "additionalData": {}
+  },
+  "dependencies": [
+    {
+      "id": "scotland2",
+      "versionRange": "^1.7.1",
+      "additionalData": {}
+    },
+    {
+      "id": "beatsaber-hook",
+      "versionRange": "^4.1.0",
+      "additionalData": {}
+    },
+    {
+      "id": "codegen",
+      "versionRange": "^0.39.0",
+      "additionalData": {
+        "headersOnly": true,
+        "branchName": "v1.2974.57485"
+      }
+    }
+  ],
+  "workspace": {
+    "dir": ".",
+    "package": "qpm.json",
+    "additionalData": {
+      "androidNdk": "",
+      "cmake": "CMakeLists.txt",
+      "toolchain": "extern/beatsaber-hook/cmake/ndk-toolchain.cmake"
+    }
+  }
+}

@@ -1,0 +1,28 @@
+{
+  "$schema": "https://raw.githubusercontent.com/nickelc/qmod-schema/master/qmod.schema.json",
+  "_QPVersion": "0.1.1",
+  "name": "GTModMenu",
+  "id": "gtmodmenu",
+  "author": "YourNameHere",
+  "version": "1.0.0",
+  "packageId": "com.AnotherAxiom.GorillaTag",
+  "packageVersion": "1.2974.57485",
+  "description": "A feature-rich holdable mod menu for Gorilla Tag Quest. Includes speed, fly, noclip, platforms, long arms, color changer, ghost mode, and more.",
+  "isLibrary": false,
+  "modFiles": [
+    "libgtmodmenu.so"
+  ],
+  "libraryFiles": [],
+  "dependencies": [
+    {
+      "id": "scotland2",
+      "version": "^1.7.1",
+      "downloadIfMissing": "https://github.com/kodenamekrak/Scotland2/releases/download/v1.7.1/scotland2.qmod"
+    },
+    {
+      "id": "gorilla-utils",
+      "version": "^1.0.0",
+      "downloadIfMissing": "https://github.com/Graicc/gorilla-utils/releases/latest/download/gorilla-utils.qmod"
+    }
+  ]
+}
