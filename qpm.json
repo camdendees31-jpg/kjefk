@@ -26,10 +26,11 @@
       }
     }
   ],
+  "sharedDir": "shared",
+  "dependenciesDir": "extern",
   "workspace": {
     "dir": ".",
     "package": "qpm.json",
-    "sharedDir": "shared",
     "additionalData": {
       "cmake": "CMakeLists.txt",
       "toolchain": "extern/beatsaber-hook/cmake/ndk-toolchain.cmake"
