@@ -1,4 +1,5 @@
 {
+  "$schema": "https://raw.githubusercontent.com/QuestPackageManager/QPM.Package/refs/heads/main/qpm.schema.json",
   "info": {
     "name": "GTModMenu",
     "id": "gtmodmenu",
@@ -9,20 +10,28 @@
   "dependencies": [
     {
       "id": "scotland2",
-      "versionRange": "^1.7.1",
-      "additionalData": {}
+      "versionRange": "^0.1.6",
+      "additionalData": {
+        "includeQmod": true
+      }
     },
     {
       "id": "beatsaber-hook",
-      "versionRange": "^4.1.0",
+      "versionRange": "^6.4.2",
       "additionalData": {}
     },
     {
-      "id": "codegen",
-      "versionRange": "^0.39.0",
+      "id": "custom-types",
+      "versionRange": "^0.18.3",
       "additionalData": {
-        "headersOnly": true,
-        "branchName": "v1.2974.57485"
+        "includeQmod": true
+      }
+    },
+    {
+      "id": "paper2_scotland2",
+      "versionRange": "^4.7.0",
+      "additionalData": {
+        "includeQmod": true
       }
     }
   ],
@@ -32,8 +41,7 @@
     "dir": ".",
     "package": "qpm.json",
     "additionalData": {
-      "cmake": "CMakeLists.txt",
-      "toolchain": "extern/beatsaber-hook/cmake/ndk-toolchain.cmake"
+      "cmake": "CMakeLists.txt"
     }
   }
 }
