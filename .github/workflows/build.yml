@@ -1,0 +1,84 @@
+name: Build GTModMenu
+
+on:
+  push:
+    branches: [ main, master ]
+  pull_request:
+    branches: [ main, master ]
+  workflow_dispatch:  # lets you trigger a build manually from GitHub UI
+
+jobs:
+  build:
+    name: Build & Package QMOD
+    runs-on: ubuntu-latest
+
+    steps:
+      # ── 1. Checkout repo ──────────────────────────────────────────────────
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          submodules: recursive
+
+      # ── 2. Install QPM (Quest Package Manager) ────────────────────────────
+      - name: Install QPM
+        uses: Fernthedev/qpm-action@v1
+        with:
+          workflow_token: ${{ secrets.GITHUB_TOKEN }}
+          restore: true          # runs `qpm restore` to download extern deps
+          cache: true            # cache extern/ between runs
+
+      # ── 3. Set up Android NDK ─────────────────────────────────────────────
+      - name: Set up Android NDK
+        uses: nttld/setup-ndk@v1
+        id: setup-ndk
+        with:
+          ndk-version: r27c      # latest stable; matches what GT modders use
+          add-to-path: true
+
+      # ── 4. Configure cmake ────────────────────────────────────────────────
+      - name: Configure CMake
+        run: |
+          cmake -B build \
+            -DCMAKE_BUILD_TYPE=Release \
+            -DCMAKE_TOOLCHAIN_FILE=${{ steps.setup-ndk.outputs.ndk-path }}/build/cmake/android.toolchain.cmake \
+            -DANDROID_ABI=arm64-v8a \
+            -DANDROID_PLATFORM=android-32 \
+            -DANDROID_STL=c++_static
+        env:
+          ANDROID_NDK_HOME: ${{ steps.setup-ndk.outputs.ndk-path }}
+
+      # ── 5. Build .so ──────────────────────────────────────────────────────
+      - name: Build
+        run: cmake --build build --config Release --parallel $(nproc)
+
+      # ── 6. Rename output ──────────────────────────────────────────────────
+      - name: Rename .so
+        run: |
+          mkdir -p output
+          cp build/libgtmodmenu.so output/libgtmodmenu.so
+
+      # ── 7. Package .qmod (zip: libgtmodmenu.so + mod.json) ───────────────
+      - name: Package QMOD
+        run: |
+          cd output
+          cp ../mod.json .
+          zip -j GTModMenu-v1.0.0.qmod libgtmodmenu.so mod.json
+          echo "✅ QMOD created: GTModMenu-v1.0.0.qmod"
+
+      # ── 8. Upload .qmod as workflow artifact ──────────────────────────────
+      - name: Upload QMOD artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: GTModMenu-v1.0.0.qmod
+          path: output/GTModMenu-v1.0.0.qmod
+          if-no-files-found: error
+
+      # ── 9. (Optional) Create GitHub Release on tag push ──────────────────
+      - name: Create Release
+        if: startsWith(github.ref, 'refs/tags/v')
+        uses: softprops/action-gh-release@v2
+        with:
+          files: output/GTModMenu-v1.0.0.qmod
+          generate_release_notes: true
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
